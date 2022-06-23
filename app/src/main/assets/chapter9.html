@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<span class="font_medium">
+<span class="font_xxlarge">
+Chapter 9. How to use Alarm.<br>
+</span>
+<br>
+If you use Alarm, you can launch the process at the specified date and time.<br>
+This time, an alert will be displayed when the specified seconds have elapsed.<br>
+<br>
+1. Prepare the necessary files.<br>
+<br>
+The contents of the files are described on this Chapter.<br>
+Create the icon file with an application such as paint.<br>
+<br>
+You can also download from the following Chrome Extension.<br>
+<a href="https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom?hl=en">
+https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom?hl=en</a><br>
+<br>
+2. Place the files to any folder on your PC.<br>
+Ex. C:\\ChromeExtenson\\Chapter9<br>
+<br>
+3. Enter "chrome://extensions" in the chrome address bar. Enable Developer mode.<br>
+<br>
+4. Click the "Load unpacked" to specify the folder.<br>
+<br>
+5. Click the icon added to the right of the address bar.<br>
+Enter seconds in the text box and click the Set button to set Alarm. <br>
+Click the Clear button to clear Alarm. <br>
+<img src="c9_1.png">
+<br>
+<br>
+6. An alert will be displayed after the specified seconds. <br>
+<img src="c9_2.png">
+<br>
+<br>
+<span class="font_medium_bold">
+Explanation of program.<br>
+</span>
+<br>
+
+<table border="1">
+  <tr>
+    <th>file name</th><th>description</th>
+  </tr>
+  <tr>
+    <td>manifest.json</td><td>Manifest file.</td>
+  </tr>
+  <tr>
+    <td>popup.html</td><td>This is display when you click the icon.</td>
+  </tr>
+  <tr>
+    <td>myscript.js</td><td>Java script file. This called by popup.html.</td>
+  </tr>
+  <tr>
+    <td>event.js</td><td>Java script file. This runs in the background.</td>
+  </tr>
+  <tr>
+    <td>Chapter_9_19.png</td><td>Extension icon. Size:19x19</td>
+  </tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>manifest.json</th>
+  </tr>
+  <tr>
+    <td>
+{<br>
+&nbsp;&nbsp;"name":&nbsp;"Chapter&nbsp;9",<br>
+&nbsp;&nbsp;"short_name":&nbsp;"C&nbsp;9",<br>
+&nbsp;&nbsp;"version":&nbsp;"1.0",<br>
+&nbsp;&nbsp;"manifest_version":&nbsp;2,<br>
+<br>
+&nbsp;&nbsp;"description":&nbsp;"Chapter&nbsp;9",<br>
+<br>
+&nbsp;&nbsp;"permissions":&nbsp;[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"alarms"<br>
+&nbsp;&nbsp;],<br>
+<br>
+&nbsp;&nbsp;"background":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"scripts":&nbsp;["event.js"],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"persistent":&nbsp;false<br>
+&nbsp;&nbsp;},<br>
+<br>
+&nbsp;&nbsp;"browser_action":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"default_icon":&nbsp;"Chapter_9_19.png",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"default_title":&nbsp;"Chapter&nbsp;9",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"default_popup":&nbsp;"popup.html"<br>
+&nbsp;&nbsp;}<br>
+}
+	</td>
+  </tr>
+  <tr>
+</table>
+<br>
+</table>
+
+<table border="1">
+  <tr>
+    <th>popup.html</th>
+  </tr>
+  <tr>
+    <td>
+&lt;!DOCTYPE&nbsp;html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&lt;meta&nbsp;charset="utf-8"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&nbsp;style="min-width:100px"&gt;<br>
+&nbsp;&nbsp;&lt;input&nbsp;type="text"&nbsp;id="id_Sec"&nbsp;value=""&nbsp;size=1&gt;&nbsp;sec&lt;br&gt;<br>
+&nbsp;&nbsp;&lt;input&nbsp;type="button"&nbsp;id="id_Set"&nbsp;value="Set"&gt;&lt;br&gt;<br>
+&nbsp;&nbsp;&lt;input&nbsp;type="button"&nbsp;id="id_Clear"&nbsp;value="Clear"&gt;<br>
+&nbsp;&nbsp;&lt;script&nbsp;src="myscript.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+
+<table border="1">
+  <tr>
+    <th>myscript.js</th>
+  </tr>
+  <tr>
+    <td>
+const&nbsp;alarm_id&nbsp;=&nbsp;'alarm_001';<br>
+<br>
+document.getElementById('id_Set').onclick&nbsp;=&nbsp;function(){<br>
+&nbsp;&nbsp;let&nbsp;dt&nbsp;=&nbsp;new&nbsp;Date();<br>
+&nbsp;&nbsp;let&nbsp;sec&nbsp;=&nbsp;document.getElementById('id_Sec').value;<br>
+&nbsp;&nbsp;dt.setSeconds(dt.getSeconds()&nbsp;+&nbsp;parseInt(sec));<br>
+&nbsp;&nbsp;chrome.alarms.create(alarm_id,&nbsp;{when:&nbsp;dt.getTime()});<br>
+};<br>
+<br>
+document.getElementById('id_Clear').onclick&nbsp;=&nbsp;function(){<br>
+&nbsp;&nbsp;chrome.alarms.clear(alarm_id);<br>
+};
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+
+<table border="1">
+  <tr>
+    <th>event.js</th>
+  </tr>
+  <tr>
+    <td>
+chrome.alarms.onAlarm.addListener(function&nbsp;(alarm)&nbsp;{<br>
+&nbsp;&nbsp;alert("Alret");<br>
+});
+    </td>
+  </tr>
+  <tr>
+</table>
+
+</span>
+</body>
+</html>

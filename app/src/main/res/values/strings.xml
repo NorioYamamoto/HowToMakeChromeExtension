@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">HowToMakeChromeExtension</string>
+    <string name="index_html">"file:///android_asset/index.html</string>
+</resources>

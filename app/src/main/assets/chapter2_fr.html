@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<span class="font_medium">
+<span class="font_xxlarge">
+Chapitre 2. Comment utiliser localStorage.<br>
+</span>
+<br>
+
+
+<span class="font_medium_bold">localStorage</span> est une méthode pour enregistrer des données dans un navigateur ajouté avec HTML5.<br>
+Créons MemoPad en utilisant <span class="font_medium_bold">localStorage</span>.<br>
+
+<br>
+1. Préparez les fichiers nécessaires.<br>
+<br>
+Le contenu des fichiers est décrit dans ce chapitre.<br>
+Créez le fichier icône avec une application telle que Paint.<br>
+<br>
+Vous pouvez également télécharger à partir de l'extension Chrome suivante.<br>
+<a href="https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom?hl=fr">
+https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom?hl=fr</a><br>
+<br>
+2. Placez les fichiers dans n'importe quel dossier de votre PC.<br>
+Ex. C:\\ChromeExtenson\\Chapter2<br>
+<br>
+3. Saisissez "chrome://extensions" dans la barre d'adresse Chrome. Activez le mode développeur.<br>
+<br>
+4. Cliquez sur "Load unpacked" pour spécifier le dossier.<br>
+<br>
+5. Cliquez sur l'icône ajoutée à droite de la barre d'adresse.<br>
+<br>
+6. C'est OK lorsque MemoPad est affiché.<br>
+<img src="c2_1_fr.png">
+<br>
+<br>
+<span class="font_medium_bold">
+Explication du programme.<br>
+</span>
+<br>
+
+<table border="1">
+  <tr>
+    <th>nom de fichier</th><th>la description</th>
+  </tr>
+  <tr>
+    <td>manifest.json</td><td>Fichier manifeste.</td>
+  </tr>
+  <tr>
+    <td>popup.html</td><td>Ceci est affiché lorsque vous cliquez sur l'icône.</td>
+  </tr>
+  <tr>
+    <td>myscript.js</td><td>Fichier de script Java. Ceci appelé par popup.html.</td>
+  </tr>
+  <tr>
+    <td>Chapter_2_19.png</td><td>Icône d'extension. Taille: 19x19</td>
+  </tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>manifest.json</th>
+  </tr>
+  <tr>
+    <td>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"name": "Chapter 2",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"short_name": "C 2",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"version": "1.0",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"manifest_version": 2,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"description": "Chapter 2",<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"browser_action": {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_icon": "Chapter_2_19.png",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_title": "Chapter 2",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_popup": "popup.html"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+	</td>
+  </tr>
+  <tr>
+</table>
+<br>
+</table>
+
+<table border="1">
+  <tr>
+    <th>popup.html</th>
+  </tr>
+  <tr>
+    <td>
+&lt;!DOCTYPE&nbsp;html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta&nbsp;charset="utf-8"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&nbsp;style="min-width:250px;min-height:200px"&gt;<br>
+&lt;textarea&nbsp;id="id_memo"&nbsp;cols="30"&nbsp;rows="10"&gt;&lt;/textarea&gt;&lt;br&gt;<br>
+&lt;input&nbsp;type="button"&nbsp;id="id_save"&nbsp;value="Save"&gt;<br>
+&lt;script&nbsp;src="myscript.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>myscript.js</th>
+  </tr>
+  <tr>
+    <td>
+//&nbsp;Called&nbsp;when&nbsp;popup.html&nbsp;is&nbsp;loaded.<br>
+window.onload&nbsp;=&nbsp;function(){<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Load&nbsp;localStorage&nbsp;with&nbsp;Key&nbsp;=&nbsp;'Memo'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;If&nbsp;it&nbsp;does&nbsp;not&nbsp;exist,&nbsp;the&nbsp;value&nbsp;is&nbsp;null.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;memo&nbsp;=&nbsp;localStorage['Memo'];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(memo&nbsp;==&nbsp;null)&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memo&nbsp;=&nbsp;'';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('id_memo').value&nbsp;=&nbsp;memo;<br>
+}<br>
+//&nbsp;Click&nbsp;save&nbsp;button<br>
+document.getElementById('id_save').onclick&nbsp;=&nbsp;function()&nbsp;{<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Load&nbsp;localStorage&nbsp;with&nbsp;Key&nbsp;=&nbsp;'Memo'.	<br>
+&nbsp;&nbsp;&nbsp;&nbsp;localStorage['Memo']&nbsp;=&nbsp;document.getElementById('id_memo').value;<br>
+}
+    </td>
+  </tr>
+  <tr>
+</table>
+</span>
+</body>
+</html>

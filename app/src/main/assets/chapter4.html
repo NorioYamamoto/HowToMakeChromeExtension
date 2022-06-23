@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<span class="font_medium">
+<span class="font_xxlarge">
+Chapter 4. Browser Action and Page Action.<br>
+</span>
+<br>
+
+Chrome Extension has <span class="font_medium_bold">Brower Action</span> and <span class="font_medium_bold">Page Action</span>.<br>
+<span class="font_medium_bold">Brower Action</span> is valid for all web pages.<br>
+<span class="font_medium_bold">Page Action</span> is valid for a specific web page.<br>
+The one created with Chapter 1, 2 and 3 is <span class="font_medium_bold">Brower Action</span>.<br>
+Let's change what was made with Chapter 1 to <span class="font_medium_bold">Page Action</span>.<br>
+<br>
+1. Prepare the necessary files.<br>
+<br>
+The contents of the files are described on this Chapter.<br>
+Create the icon file with an application such as paint.<br>
+<br>
+You can also download from the following Chrome Extension.<br>
+<a href="https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom?hl=en">
+https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom?hl=en</a><br>
+<br>
+2. Place the files to any folder on your PC.<br>
+Ex. C:\\ChromeExtenson\\Chapter4<br>
+<br>
+3. Enter "chrome://extensions" in the chrome address bar. Enable Developer mode.<br>
+<br>
+4. Click the "Load unpacked"  to specify the folder.<br>
+<br>
+5. Click the icon added to the right of the address bar.<br>
+<br>
+6. The icon is valid on yahoo.<br>
+<img src="c4_1.png">
+<br>
+<br>
+7. The icon is invalid except for yahoo.<br>
+<img src="c4_2.png">
+<br>
+<br>
+<span class="font_medium_bold">
+Explanation of program.<br>
+</span>
+<br>
+
+<table border="1">
+  <tr>
+    <th>file name</th><th>description</th>
+  </tr>
+  <tr>
+    <td>manifest.json</td><td>Manifest file.</td>
+  </tr>
+  <tr>
+    <td>popup.html</td><td>This is display when you click the icon.</td>
+  </tr>
+  <tr>
+    <td>event.js</td><td>Java script file. This runs in the background.</td>
+  </tr>
+  <tr>
+    <td>Chapter_4_19.png</td><td>Extension icon. Size:19x19</td>
+  </tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>manifest.json</th>
+  </tr>
+  <tr>
+    <td>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"name":&nbsp;"Chapter&nbsp;4",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"short_name":&nbsp;"C&nbsp;4",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"version":&nbsp;"1.0",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"manifest_version":&nbsp;2,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"description":&nbsp;"Chapter&nbsp;4",<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"background":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"scripts":&nbsp;["event.js"],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"persistent":&nbsp;false<br>
+&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"permissions":&nbsp;[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"tabs"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;],<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"page_action":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_icon":&nbsp;"Chapter_4_19.png",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_title":&nbsp;"Chapter&nbsp;4",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_popup":&nbsp;"popup.html"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+	</td>
+  </tr>
+  <tr>
+</table>
+<br>
+</table>
+
+<table border="1">
+  <tr>
+    <th>popup.html</th>
+  </tr>
+  <tr>
+    <td>
+&lt;!DOCTYPE&nbsp;html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta&nbsp;charset="utf-8"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&nbsp;style="min-width:250px"&gt;<br>
+Hello&nbsp;World!<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;<br>
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>event.js</th>
+  </tr>
+  <tr>
+    <td>
+chrome.tabs.onUpdated.addListener(function(tabId,&nbsp;changeInfo,&nbsp;tab){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Show&nbsp;page&nbsp;action&nbsp;if&nbsp;URL&nbsp;contains&nbsp;yahoo<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(changeInfo.status&nbsp;==&nbsp;"complete"){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(tab.url.indexOf('yahoo')&nbsp;!=&nbsp;-1){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chrome.pageAction.show(tabId);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+});<br>
+    </td>
+  </tr>
+  <tr>
+</table>
+</span>
+</body>
+</html>

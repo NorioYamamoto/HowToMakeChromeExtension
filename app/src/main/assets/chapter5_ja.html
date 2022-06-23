@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<span class="font_medium">
+<span class="font_xxlarge">
+5章 executeScriptを使おう<br>
+</span>
+<br>
+<span class="font_medium_bold">executeScript</span>は既存のウェブページでスクリプトを実行できます。<br>
+これにより既存のページを読み書きすることができます。<br>
+<br>
+1. 必要なファイルを準備します。<br>
+<br>
+ファイルの内容はこの章に記載しています。<br>
+アイコンはペイント等のアプリケーションで作成して下さい。<br>
+<br>
+以下のChrome拡張からファイルをダウンロードすることも出来ます。<br>
+<a href="https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom">
+https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom</a><br>
+<br>
+2. PCの任意のフォルダにファイルを置きます。<br>
+例 C:&yen;ChromeExtenson&yen;Chapter5<br>
+<br>
+3. Chromeのアドレスバーに"chrome://extensions"を入力し、デベロッパーモードを有効にします。<br>
+<br>
+4. "パッケージされていない拡張機能を読み込む"をクリックし、フォルダを指定します。<br>
+<br>
+5. アドレスバーの右に追加されたアイコンをクリックします。<br>
+<br>
+6. Redボタンをクリックします。<br>
+<img src="c5_1_ja.png">
+<br>
+<br>
+7. 背景が赤になります。<br>
+<img src="c5_2_ja.png">
+<br>
+<br>
+<span class="font_medium_bold">
+プログラムの説明<br>
+</span>
+<br>
+
+<table border="1">
+  <tr>
+    <th>ファイル名 </th><th>説明 </th>
+  </tr>
+  <tr>
+    <td>manifest.json</td><td>マニュフェスト・ファイル</td>
+  </tr>
+  <tr>
+    <td>popup.html</td><td>アイコンをクリックで表示</td>
+  </tr>
+  <tr>
+    <td>myscript.js</td><td>popup.htmlから呼ばれるjavaスクリプト</td>
+  </tr>
+  <tr>
+    <td>Chapter_5_19.png</td><td>拡張機能アイコン Size:19x19 </td>
+  </tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>manifest.json</th>
+  </tr>
+  <tr>
+    <td>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"name":&nbsp;"Chapter&nbsp;5",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"short_name":&nbsp;"C&nbsp;5",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"version":&nbsp;"1.0",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"manifest_version":&nbsp;2,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"description":&nbsp;"Chapter&nbsp;5",<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"permissions":&nbsp;[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"http://*/*",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"https://*/*"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;],<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"browser_action":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_icon":&nbsp;"Chapter_5_19.png",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_title":&nbsp;"Chapter&nbsp;5",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_popup":&nbsp;"popup.html"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+	</td>
+  </tr>
+  <tr>
+</table>
+<br>
+</table>
+
+<table border="1">
+  <tr>
+    <th>popup.html</th>
+  </tr>
+  <tr>
+    <td>
+&lt;!DOCTYPE&nbsp;html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta&nbsp;charset="utf-8"&gt;<br>
+&lt;/head&gt;<br>
+<br>
+&lt;body&nbsp;style="min-width:100px"&gt;<br>
+&lt;input&nbsp;type="button"&nbsp;id="id_Red"&nbsp;value="Red"&gt;<br>
+&lt;br&gt;&lt;br&gt;<br>
+&lt;input&nbsp;type="button"&nbsp;id="id_Blue"&nbsp;value="Blue"&gt;<br>
+<br>
+&lt;script&nbsp;src="myscript.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>myscript.js</th>
+  </tr>
+  <tr>
+    <td>
+//&nbsp;Click&nbsp;Red&nbsp;button<br>
+document.getElementById('id_Red').onclick&nbsp;=&nbsp;function()&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chrome.tabs.executeScript(null,&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"code":&nbsp;"document.body.style.backgroundColor='red'"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+//&nbsp;&nbsp;//&nbsp;If&nbsp;you&nbsp;prefer&nbsp;external&nbsp;files.<br>
+//&nbsp;&nbsp;chrome.tabs.executeScript(null,&nbsp;{<br>
+//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"file":&nbsp;"bg_red.js"<br>
+//&nbsp;&nbsp;})<br>
+}<br>
+//&nbsp;Click&nbsp;Blue&nbsp;button<br>
+document.getElementById('id_Blue').onclick&nbsp;=&nbsp;function()&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chrome.tabs.executeScript(null,&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"code":&nbsp;"document.body.style.backgroundColor='Blue'"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;})<br>
+}
+    </td>
+  </tr>
+  <tr>
+</table>
+</span>
+</body>
+</html>

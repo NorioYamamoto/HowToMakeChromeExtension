@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<span class="font_medium">
+<span class="font_xxlarge">
+10章 content scriptsを使おう<br>
+</span>
+<br>
+content scriptsを使うとURLで指定したページでスクリプトを動かすことが出来ます。<br>
+対象のURLとスクリプトはmanifest.jsonに定義します。<br>
+今回は以下のURLのページにスクリプトでボタンを追加します。<br>
+https://www.wikipedia.org<br>
+https://nory-soft.web.app<br>
+<br>
+1. 必要なファイルを準備します。<br>
+<br>
+ファイルの内容はこの章に記載しています。<br>
+<br>
+以下のChrome拡張からファイルをダウンロードすることも出来ます。<br>
+<a href="https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom">
+https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom</a><br>
+<br>
+2. PCの任意のフォルダにファイルを置きます。<br>
+例 C:&yen;ChromeExtenson&yen;Chapter10<br>
+<br>
+3. Chromeのアドレスバーに"chrome://extensions"を入力し、デベロッパーモードを有効にします。<br>
+<br>
+4. "パッケージされていない拡張機能を読み込む"をクリックし、フォルダを指定します。<br>
+<br>
+5. Chromeでhttps://www.wikipedia.orgにアクセスします。"Change background to red"ボタンが表示されることを確認して下さい。<br>
+<img src="c10_1_ja.png">
+<br>
+<br>
+6. "Change background to red"ボタンをクリックすると背景が赤に変わります。<br>
+<img src="c10_2_ja.png">
+<br>
+<br>
+<span class="font_medium_bold">
+プログラムの説明<br>
+</span>
+<br>
+
+<table border="1">
+  <tr>
+    <th>ファイル名 </th><th>説明 </th>
+  </tr>
+  <tr>
+    <td>manifest.json</td><td>マニュフェスト・ファイル</td>
+  </tr>
+  <tr>
+    <td>matches.js</td><td>URLが一致した場合に動くjavaスクリプト</td>
+  </tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>manifest.json</th>
+  </tr>
+  <tr>
+    <td>
+      {<br>
+        &nbsp;&nbsp;"name":&nbsp;"Chapter&nbsp;10",<br>
+        &nbsp;&nbsp;"version":&nbsp;"1.0",<br>
+        &nbsp;&nbsp;"manifest_version":&nbsp;2,<br>
+        <br>
+        &nbsp;&nbsp;"description":&nbsp;"This&nbsp;is&nbsp;Chapter&nbsp;10",<br>
+        <br>
+        &nbsp;&nbsp;"content_scripts":&nbsp;[<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"matches":&nbsp;["*://*.wikipedia.org/*"],<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"js":&nbsp;["matches.js"]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"matches":&nbsp;["*://nory-soft.web.app/*"],<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"js":&nbsp;["matches.js"]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;]<br>
+        }<br>
+        
+	</td>
+  </tr>
+  <tr>
+</table>
+<br>
+</table>
+
+<table border="1">
+  <tr>
+    <th>matches.js</th>
+  </tr>
+  <tr>
+    <td>
+      let&nbsp;button&nbsp;=&nbsp;document.createElement('input');<br>
+      button.type&nbsp;=&nbsp;'button';<br>
+      button.value&nbsp;=&nbsp;'Change&nbsp;background&nbsp;to&nbsp;red';<br>
+      <br>
+      let&nbsp;child&nbsp;=&nbsp;document.body.firstChild;<br>
+      document.body.insertBefore(button,&nbsp;child);<br>
+      <br>
+      button.addEventListener("click",&nbsp;button_click);<br>
+      <br>
+      function&nbsp;button_click()<br>
+      {<br>
+      &nbsp;&nbsp;document.body.style.backgroundColor&nbsp;=&nbsp;'red';<br>
+      }<br>
+      
+    </td>
+  </tr>
+  <tr>
+</table>
+
+</span>
+</body>
+</html>

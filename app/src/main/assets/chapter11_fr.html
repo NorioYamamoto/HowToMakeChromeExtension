@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<span class="font_medium">
+<span class="font_xxlarge">
+Chapitre 11. Ouvrir le fichier et enregistrer dans un fichier. <br>
+</span>
+<br>
+
+
+Ajoutons la fonction Ouvrir fichier et Enregistrer dans fichier au bloc-notes créé au chapitre 2. <br>
+Le fichier Open utilise une méthode pour débutant, vous pouvez donc penser que ce n'est pas cool. Il est possible de créer un traitement sympa en utilisant les fonctions avancées de JavaScript. <br>
+Le fichier Sava to est de télécharger download.txt vers la destination d'enregistrement par défaut de Chrome. Vous serez déçu si vous souhaitez enregistrer sous n'importe quel nom de fichier avec n'importe quel nom de fichier. Je pense qu'il est difficile pour Chrome de spécifier une destination de sauvegarde arbitraire pour des raisons de sécurité. Vous pouvez améliorer n'importe quel nom de fichier en améliorant ce programme. <br>
+
+<br>
+1. Préparez les fichiers nécessaires.<br>
+<br>
+Le contenu des fichiers est décrit dans ce chapitre.<br>
+Créez le fichier icône avec une application telle que Paint.<br>
+<br>
+Vous pouvez également télécharger à partir de l'extension Chrome suivante.<br>
+<a href="https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom?hl=fr">
+https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom?hl=fr</a><br>
+<br>
+2. Placez les fichiers dans n'importe quel dossier de votre PC.<br>
+Ex. C:\\ChromeExtenson\\Chapter11<br>
+<br>
+3. Saisissez "chrome://extensions" dans la barre d'adresse Chrome. Activez le mode développeur.<br>
+<br>
+4. Cliquez sur "Load unpacked" pour spécifier le dossier.<br>
+<br>
+5. Cliquez sur l'icône ajoutée à droite de la barre d'adresse.<br>
+<br>
+6. Entrez le texte dans le Bloc-notes et cliquez sur le bouton "Save to File". download.txt sera téléchargé. <br>
+<img src="c11_1_fr.png">
+<br>
+<br>
+7. Cliquez sur le bouton "Choisir un fichier" et sélectionnez le fichier. Le fichier ouvert s'affiche dans le Bloc-notes. <br>
+<img src="c11_2_fr.png">
+<br>
+<br>
+<span class="font_medium_bold">
+Explication du programme.<br>
+</span>
+<br>
+
+<table border="1">
+  <tr>
+    <th>nom de fichier</th><th>la description</th>
+  </tr>
+  <tr>
+    <td>manifest.json</td><td>Fichier manifeste.</td>
+  </tr>
+  <tr>
+    <td>popup.html</td><td>Ceci est affiché lorsque vous cliquez sur l'icône.</td>
+  </tr>
+  <tr>
+    <td>myscript.js</td><td>Fichier de script Java. Ceci appelé par popup.html.</td>
+  </tr>
+  <tr>
+    <td>Chapter_11_19.png</td><td>Icône d'extension. Taille: 19x19</td>
+  </tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>manifest.json</th>
+  </tr>
+  <tr>
+    <td>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"name":&nbsp;"Chapter&nbsp;11",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"short_name":&nbsp;"C&nbsp;11",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"version":&nbsp;"1.0",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"manifest_version":&nbsp;2,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"description":&nbsp;"Chapter&nbsp;11",<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"browser_action":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_icon":&nbsp;"Chapter_11_19.png",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_title":&nbsp;"Chapter&nbsp;11",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_popup":&nbsp;"popup.html"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+</td>
+  </tr>
+  <tr>
+</table>
+<br>
+  </table>
+
+  <table border="1">
+  <tr>
+    <th>popup.html</th>
+  </tr>
+  <tr>
+    <td>
+&lt;!DOCTYPE&nbsp;html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta&nbsp;charset="utf-8"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&nbsp;style="min-width:250px;min-height:200px"&gt;<br>
+&lt;textarea&nbsp;id="id_memo"&nbsp;cols="30"&nbsp;rows="10"&gt;&lt;/textarea&gt;&lt;br&gt;<br>
+&lt;input&nbsp;type="button"&nbsp;id="id_save"&nbsp;value="Save&nbsp;to&nbsp;localStorage"&gt;&lt;br&gt;<br>
+&lt;input&nbsp;type="button"&nbsp;id="id_savefile"&nbsp;value="Save&nbsp;to&nbsp;File"&gt;&lt;br&gt;<br>
+&lt;input&nbsp;type="file"&nbsp;id="id_openfile"&gt;<br>
+&lt;script&nbsp;src="myscript.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+</td>
+  </tr>
+  <tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>myscript.js</th>
+  </tr>
+  <tr>
+    <td>
+//&nbsp;Called&nbsp;when&nbsp;popup.html&nbsp;is&nbsp;loaded.<br>
+window.onload&nbsp;=&nbsp;function(){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Load&nbsp;localStorage&nbsp;with&nbsp;Key&nbsp;=&nbsp;'Memo'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;If&nbsp;it&nbsp;does&nbsp;not&nbsp;exist,&nbsp;the&nbsp;value&nbsp;is&nbsp;null.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;memo&nbsp;=&nbsp;localStorage['Memo'];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(memo&nbsp;==&nbsp;null)&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memo&nbsp;=&nbsp;'';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('id_memo').value&nbsp;=&nbsp;memo;<br>
+}<br>
+//&nbsp;Click&nbsp;save&nbsp;button.<br>
+document.getElementById('id_save').onclick&nbsp;=&nbsp;function()&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Load&nbsp;localStorage&nbsp;with&nbsp;Key&nbsp;=&nbsp;'Memo'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;localStorage['Memo']&nbsp;=&nbsp;document.getElementById('id_memo').value;<br>
+}<br>
+//&nbsp;Click&nbsp;save&nbsp;to&nbsp;file&nbsp;button.<br>
+document.getElementById('id_savefile').onclick&nbsp;=&nbsp;function()&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;memo&nbsp;=&nbsp;document.getElementById('id_memo').value;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;objectURL&nbsp;=&nbsp;window.URL.createObjectURL(new&nbsp;Blob([memo]));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;a&nbsp;=&nbsp;document.createElement('a');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a.download&nbsp;=&nbsp;'download.txt';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a.href&nbsp;=&nbsp;objectURL;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a.click();<br>
+}<br>
+//&nbsp;Click&nbsp;open&nbsp;file&nbsp;button.<br>
+document.getElementById('id_openfile').onchange&nbsp;=&nbsp;function()&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;file&nbsp;=&nbsp;this.files[0];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;reader&nbsp;=&nbsp;new&nbsp;FileReader;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reader.onload&nbsp;=&nbsp;function()&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('id_memo').value&nbsp;=&nbsp;reader.result;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reader.readAsText(file);<br>
+}
+    </td>
+  </tr>
+  <tr>
+</table>
+</span>
+</body>
+</html>

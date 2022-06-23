@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<span class="font_medium">
+<span class="font_xxlarge">
+8章 sendMessageを使おう<br>
+</span>
+<br>
+ドメイン間でデータ通信を行う場合はeventPage経由で<span class="font_medium_bold">sendMessage</span>を使います。<br><br>
+ドメインA ---> eventPage ---> ドメインB<br><br>
+なお、localStorageのスコープはドメイン単位なのでドメイン間のデータ通信には使用出来ません。<br>
+<br>
+1. 必要なファイルを準備します。<br>
+<br>
+ファイルの内容はこの章に記載しています。<br>
+アイコンはペイント等のアプリケーションで作成して下さい。<br>
+<br>
+以下のChrome拡張からファイルをダウンロードすることも出来ます。<br>
+<a href="https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom">
+https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom</a><br>
+<br>
+2. PCの任意のフォルダにファイルを置きます。<br>
+例 C:&yen;ChromeExtenson&yen;Chapter8<br>
+<br>
+3. Chromeのアドレスバーに"chrome://extensions"を入力し、デベロッパーモードを有効にします。<br>
+<br>
+4. "パッケージされていない拡張機能を読み込む"をクリックし、フォルダを指定します。<br>
+<br>
+5. アドレスバーの右に追加されたアイコンをクリックします。<br>
+ドメインAとドメインBが表示されます。これらはテスト用で実際には拡張機能内のローカルコンテンツです。<br>
+<br>
+6. ドメインAを選択し、Sendボタンをクリックします。<br>
+<img src="c8_1.png">
+<br>
+<br>
+7. ドメインBを選択し、Recvボタンをクリックします。ドメインAのデーターが受信されたことを確認して下さい。<br>
+<img src="c8_2.png">
+<br>
+<br>
+<span class="font_medium_bold">
+プログラムの説明<br>
+</span>
+<br>
+
+<table border="1">
+  <tr>
+    <th>ファイル名 </th><th>説明 </th>
+  </tr>
+  <tr>
+    <td>manifest.json</td><td>マニュフェスト・ファイル</td>
+  </tr>
+  <tr>
+    <td>popup.html</td><td>アイコンをクリックで表示</td>
+  </tr>
+  <tr>
+    <td>domainA.html</td><td>テスト用ドメインA</td>
+  </tr>
+  <tr>
+    <td>domainB.html</td><td>テスト用ドメインB</td>
+  </tr>
+  <tr>
+    <td>myscript.js</td><td>popup.htmlから呼ばれるjavaスクリプト</td>
+  </tr>
+  <tr>
+    <td>domainA.js</td><td>domainA.htmlから呼ばれるjavaスクリプト</td>
+  </tr>
+  <tr>
+    <td>domainB.js</td><td>domainB.htmlから呼ばれるjavaスクリプト</td>
+  </tr>
+  <tr>
+    <td>event.js</td><td>バックグラウンドで動くjavaスクリプト</td>
+  </tr>
+  <tr>
+    <td>Chapter_8_19.png</td><td>拡張機能アイコン Size:19x19 </td>
+  </tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>manifest.json</th>
+  </tr>
+  <tr>
+    <td>
+{<br>
+&nbsp;&nbsp;"name":&nbsp;"Chapter&nbsp;8",<br>
+&nbsp;&nbsp;"short_name":&nbsp;"C&nbsp;8",<br>
+&nbsp;&nbsp;"version":&nbsp;"1.0",<br>
+&nbsp;&nbsp;"manifest_version":&nbsp;2,<br>
+<br>
+&nbsp;&nbsp;"description":&nbsp;"Chapter&nbsp;8",<br>
+<br>
+&nbsp;&nbsp;"background":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"scripts":&nbsp;["event.js"],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"persistent":&nbsp;false<br>
+&nbsp;&nbsp;},<br>
+<br>
+&nbsp;&nbsp;"browser_action":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"default_icon":&nbsp;"Chapter_8_19.png",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"default_title":&nbsp;"Chapter&nbsp;8",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"default_popup":&nbsp;"popup.html"<br>
+&nbsp;&nbsp;}<br>
+}
+	</td>
+  </tr>
+  <tr>
+</table>
+<br>
+</table>
+
+<table border="1">
+  <tr>
+    <th>popup.html</th>
+  </tr>
+  <tr>
+    <td>
+&lt;!DOCTYPE&nbsp;html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&lt;meta&nbsp;charset="utf-8"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+&nbsp;&nbsp;&lt;script&nbsp;src="myscript.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+
+<table border="1">
+  <tr>
+    <th>domainA.html</th>
+  </tr>
+  <tr>
+    <td>
+&lt;!DOCTYPE&nbsp;html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&lt;meta&nbsp;charset="utf-8"&gt;<br>
+&nbsp;&nbsp;&lt;title&gt;Domain&nbsp;A&lt;/title&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+&nbsp;&nbsp;&lt;input&nbsp;type="text"&nbsp;id="ta1"&nbsp;value="123"&gt;&lt;br&gt;<br>
+&nbsp;&nbsp;&lt;input&nbsp;type="button"&nbsp;id="id_Send"&nbsp;value="Send"&gt;<br>
+&nbsp;&nbsp;&lt;script&nbsp;src="domainA.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+
+<table border="1">
+  <tr>
+    <th>domainB.html</th>
+  </tr>
+  <tr>
+    <td>
+&lt;!DOCTYPE&nbsp;html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&lt;meta&nbsp;charset="utf-8"&gt;<br>
+&nbsp;&nbsp;&lt;title&gt;Domain&nbsp;B&lt;/title&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+&nbsp;&nbsp;&lt;input&nbsp;type="text"&nbsp;id="tb1"&nbsp;value=""&gt;&lt;br&gt;<br>
+&nbsp;&nbsp;&lt;input&nbsp;type="button"&nbsp;id="id_Recv"&nbsp;value="Recv"&gt;<br>
+&nbsp;&nbsp;&lt;script&nbsp;src="domainB.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+
+<table border="1">
+  <tr>
+    <th>myscript.js</th>
+  </tr>
+  <tr>
+    <td>
+window.onload&nbsp;=&nbsp;function(){<br>
+&nbsp;&nbsp;chrome.tabs.create({url:'domainA.html'},&nbsp;tab&nbsp;=&gt;&nbsp;{});<br>
+&nbsp;&nbsp;chrome.tabs.create({url:'domainB.html'},&nbsp;tab&nbsp;=&gt;&nbsp;{});<br>
+};
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+
+<table border="1">
+  <tr>
+    <th>domainA.js</th>
+  </tr>
+  <tr>
+    <td>
+document.getElementById('id_Send').onclick&nbsp;=&nbsp;function()&nbsp;{<br>
+&nbsp;&nbsp;var&nbsp;value&nbsp;=&nbsp;document.getElementById('ta1').value;<br>
+&nbsp;&nbsp;chrome.runtime.sendMessage({method:&nbsp;'Send',&nbsp;key:&nbsp;'key',&nbsp;value:&nbsp;value},&nbsp;function&nbsp;(response)&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;;<br>
+&nbsp;&nbsp;});<br>
+};
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+
+<table border="1">
+  <tr>
+    <th>domainB.js</th>
+  </tr>
+  <tr>
+    <td>
+document.getElementById('id_Recv').onclick&nbsp;=&nbsp;function()&nbsp;{<br>
+&nbsp;&nbsp;chrome.runtime.sendMessage({method:&nbsp;'Recv',&nbsp;key:&nbsp;'key'},&nbsp;function&nbsp;(response)&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('tb1').value&nbsp;=&nbsp;response.value;<br>
+&nbsp;&nbsp;});<br>
+};<br>
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+
+<table border="1">
+  <tr>
+    <th>event.js</th>
+  </tr>
+  <tr>
+    <td>
+var&nbsp;value;<br>
+chrome.runtime.onMessage.addListener(function&nbsp;(request,&nbsp;sender,&nbsp;sendResponse)&nbsp;{<br>
+&nbsp;&nbsp;switch&nbsp;(request.method)&nbsp;{<br>
+&nbsp;&nbsp;case&nbsp;'Send':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;=&nbsp;request.value;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;case&nbsp;'Recv':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sendResponse({value:&nbsp;value});<br>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;}<br>
+});
+    </td>
+  </tr>
+  <tr>
+</table>
+
+</span>
+</body>
+</html>

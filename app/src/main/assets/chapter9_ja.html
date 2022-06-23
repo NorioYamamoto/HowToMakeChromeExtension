@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<span class="font_medium">
+<span class="font_xxlarge">
+9章 Alarmを使おう<br>
+</span>
+<br>
+Alarmを使うと指定した日時に処理を動かすことが出来ます。<br>
+今回は指定した秒の経過時にアラートを表示します。<br>
+<br>
+1. 必要なファイルを準備します。<br>
+<br>
+ファイルの内容はこの章に記載しています。<br>
+アイコンはペイント等のアプリケーションで作成して下さい。<br>
+<br>
+以下のChrome拡張からファイルをダウンロードすることも出来ます。<br>
+<a href="https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom">
+https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom</a><br>
+<br>
+2. PCの任意のフォルダにファイルを置きます。<br>
+例 C:&yen;ChromeExtenson&yen;Chapter9<br>
+<br>
+3. Chromeのアドレスバーに"chrome://extensions"を入力し、デベロッパーモードを有効にします。<br>
+<br>
+4. "パッケージされていない拡張機能を読み込む"をクリックし、フォルダを指定します。<br>
+<br>
+5. アドレスバーの右に追加されたアイコンをクリックします。<br>
+テキストボックスに秒を入力し、SetボタンをクリックするとAlarmがセットされます。<br>
+ClearボタンをクリックするとAlarmがクリアされます。<br>
+<img src="c9_1_ja.png">
+<br>
+<br>
+6. 指定した秒の経過時にアラートが表示されます。<br>
+<img src="c9_2_ja.png">
+<br>
+<br>
+<span class="font_medium_bold">
+プログラムの説明<br>
+</span>
+<br>
+
+<table border="1">
+  <tr>
+    <th>ファイル名 </th><th>説明 </th>
+  </tr>
+  <tr>
+    <td>manifest.json</td><td>マニュフェスト・ファイル</td>
+  </tr>
+  <tr>
+    <td>popup.html</td><td>アイコンをクリックで表示</td>
+  </tr>
+  <tr>
+    <td>myscript.js</td><td>popup.htmlから呼ばれるjavaスクリプト</td>
+  </tr>
+  <tr>
+    <td>event.js</td><td>バックグラウンドで動くjavaスクリプト</td>
+  </tr>
+  <tr>
+    <td>Chapter_9_19.png</td><td>拡張機能アイコン Size:19x19 </td>
+  </tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>manifest.json</th>
+  </tr>
+  <tr>
+    <td>
+{<br>
+&nbsp;&nbsp;"name":&nbsp;"Chapter&nbsp;9",<br>
+&nbsp;&nbsp;"short_name":&nbsp;"C&nbsp;9",<br>
+&nbsp;&nbsp;"version":&nbsp;"1.0",<br>
+&nbsp;&nbsp;"manifest_version":&nbsp;2,<br>
+<br>
+&nbsp;&nbsp;"description":&nbsp;"Chapter&nbsp;9",<br>
+<br>
+&nbsp;&nbsp;"permissions":&nbsp;[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"alarms"<br>
+&nbsp;&nbsp;],<br>
+<br>
+&nbsp;&nbsp;"background":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"scripts":&nbsp;["event.js"],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"persistent":&nbsp;false<br>
+&nbsp;&nbsp;},<br>
+<br>
+&nbsp;&nbsp;"browser_action":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"default_icon":&nbsp;"Chapter_9_19.png",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"default_title":&nbsp;"Chapter&nbsp;9",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"default_popup":&nbsp;"popup.html"<br>
+&nbsp;&nbsp;}<br>
+}
+	</td>
+  </tr>
+  <tr>
+</table>
+<br>
+</table>
+
+<table border="1">
+  <tr>
+    <th>popup.html</th>
+  </tr>
+  <tr>
+    <td>
+&lt;!DOCTYPE&nbsp;html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&lt;meta&nbsp;charset="utf-8"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&nbsp;style="min-width:100px"&gt;<br>
+&nbsp;&nbsp;&lt;input&nbsp;type="text"&nbsp;id="id_Sec"&nbsp;value=""&nbsp;size=1&gt;&nbsp;sec&lt;br&gt;<br>
+&nbsp;&nbsp;&lt;input&nbsp;type="button"&nbsp;id="id_Set"&nbsp;value="Set"&gt;&lt;br&gt;<br>
+&nbsp;&nbsp;&lt;input&nbsp;type="button"&nbsp;id="id_Clear"&nbsp;value="Clear"&gt;<br>
+&nbsp;&nbsp;&lt;script&nbsp;src="myscript.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+
+<table border="1">
+  <tr>
+    <th>myscript.js</th>
+  </tr>
+  <tr>
+    <td>
+const&nbsp;alarm_id&nbsp;=&nbsp;'alarm_001';<br>
+<br>
+document.getElementById('id_Set').onclick&nbsp;=&nbsp;function(){<br>
+&nbsp;&nbsp;let&nbsp;dt&nbsp;=&nbsp;new&nbsp;Date();<br>
+&nbsp;&nbsp;let&nbsp;sec&nbsp;=&nbsp;document.getElementById('id_Sec').value;<br>
+&nbsp;&nbsp;dt.setSeconds(dt.getSeconds()&nbsp;+&nbsp;parseInt(sec));<br>
+&nbsp;&nbsp;chrome.alarms.create(alarm_id,&nbsp;{when:&nbsp;dt.getTime()});<br>
+};<br>
+<br>
+document.getElementById('id_Clear').onclick&nbsp;=&nbsp;function(){<br>
+&nbsp;&nbsp;chrome.alarms.clear(alarm_id);<br>
+};
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+
+<table border="1">
+  <tr>
+    <th>event.js</th>
+  </tr>
+  <tr>
+    <td>
+chrome.alarms.onAlarm.addListener(function&nbsp;(alarm)&nbsp;{<br>
+&nbsp;&nbsp;alert("Alret");<br>
+});
+    </td>
+  </tr>
+  <tr>
+</table>
+
+</span>
+</body>
+</html>

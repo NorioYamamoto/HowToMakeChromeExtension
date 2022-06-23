@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<span class="font_medium">
+<span class="font_xxlarge">
+2章 localStorageを使おう<br>
+</span>
+<br>
+<span class="font_medium_bold">localStorage</span> は HTML5で追加されたブラウザにデータを保存する機能です。 <br>
+<span class="font_medium_bold">localStorage</span>を使ってメモ帳を作りましょう。<br>
+<br>
+1. 必要なファイルを準備します。<br>
+<br>
+ファイルの内容はこの章に記載しています。<br>
+アイコンはペイント等のアプリケーションで作成して下さい。<br>
+<br>
+以下のChrome拡張からファイルをダウンロードすることも出来ます。<br>
+<a href="https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom">
+https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom</a><br>
+<br>
+2. PCの任意のフォルダにファイルを置きます。<br>
+例 C:&yen;ChromeExtenson&yen;Chapter2<br>
+<br>
+3. Chromeのアドレスバーに"chrome://extensions"を入力し、デベロッパーモードを有効にします。<br>
+<br>
+4. "パッケージされていない拡張機能を読み込む"をクリックし、フォルダを指定します。<br>
+<br>
+5. アドレスバーの右に追加されたアイコンをクリックします。<br>
+<br>
+6. メモ帳が表示されればOKです。 <br>
+<img src="c2_1_ja.png">
+<br>
+<br>
+<span class="font_medium_bold">
+プログラムの説明<br>
+</span>
+<br>
+
+<table border="1">
+  <tr>
+    <th>ファイル名 </th><th>説明</th>
+  </tr>
+  <tr>
+    <td>manifest.json</td><td>マニュフェスト・ファイル</td>
+  </tr>
+  <tr>
+    <td>popup.html</td><td>アイコンをクリックで表示</td>
+  </tr>
+  <tr>
+    <td>myscript.js</td><td>popup.htmlから呼ばれるjavaスクリプト</td>
+  </tr>
+  <tr>
+    <td>Chapter_2_19.png</td><td>拡張機能アイコン Size:19x19 </td>
+  </tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>manifest.json</th>
+  </tr>
+  <tr>
+    <td>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"name": "Chapter 2",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"short_name": "C 2",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"version": "1.0",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"manifest_version": 2,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"description": "Chapter 2",<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"browser_action": {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_icon": "Chapter_2_19.png",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_title": "Chapter 2",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_popup": "popup.html"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+	</td>
+  </tr>
+  <tr>
+</table>
+<br>
+</table>
+
+<table border="1">
+  <tr>
+    <th>popup.html</th>
+  </tr>
+  <tr>
+    <td>
+&lt;!DOCTYPE&nbsp;html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta&nbsp;charset="utf-8"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&nbsp;style="min-width:250px;min-height:200px"&gt;<br>
+&lt;textarea&nbsp;id="id_memo"&nbsp;cols="30"&nbsp;rows="10"&gt;&lt;/textarea&gt;&lt;br&gt;<br>
+&lt;input&nbsp;type="button"&nbsp;id="id_save"&nbsp;value="Save"&gt;<br>
+&lt;script&nbsp;src="myscript.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+    </td>
+  </tr>
+  <tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>myscript.js</th>
+  </tr>
+  <tr>
+    <td>
+//&nbsp;Called&nbsp;when&nbsp;popup.html&nbsp;is&nbsp;loaded.<br>
+window.onload&nbsp;=&nbsp;function(){<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Load&nbsp;localStorage&nbsp;with&nbsp;Key&nbsp;=&nbsp;'Memo'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;If&nbsp;it&nbsp;does&nbsp;not&nbsp;exist,&nbsp;the&nbsp;value&nbsp;is&nbsp;null.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;memo&nbsp;=&nbsp;localStorage['Memo'];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(memo&nbsp;==&nbsp;null)&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memo&nbsp;=&nbsp;'';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('id_memo').value&nbsp;=&nbsp;memo;<br>
+}<br>
+//&nbsp;Click&nbsp;save&nbsp;button<br>
+document.getElementById('id_save').onclick&nbsp;=&nbsp;function()&nbsp;{<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Load&nbsp;localStorage&nbsp;with&nbsp;Key&nbsp;=&nbsp;'Memo'.	<br>
+&nbsp;&nbsp;&nbsp;&nbsp;localStorage['Memo']&nbsp;=&nbsp;document.getElementById('id_memo').value;<br>
+}
+    </td>
+  </tr>
+  <tr>
+</table>
+</span>
+</body>
+</html>

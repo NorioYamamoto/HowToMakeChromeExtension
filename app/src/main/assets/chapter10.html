@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<span class="font_medium">
+<span class="font_xxlarge">
+Chapter 10. How to use content scripts.<br>
+</span>
+<br>
+You can use content scripts to run scripts on the page specified by the URL. <br>
+The target URL and script are defined in manifest.json. <br>
+This time, add a button with a script to the page with the following URL. <br>
+https://www.wikipedia.org<br>
+https://nory-soft.web.app<br>
+<br>
+1. Prepare the necessary files.<br>
+<br>
+The contents of the files are described on this Chapter.<br>
+<br>
+You can also download from the following Chrome Extension.<br>
+<a href="https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom?hl=en">
+https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom?hl=en</a><br>
+<br>
+2. Place the files to any folder on your PC.<br>
+Ex. C:\\ChromeExtenson\\Chapter10<br>
+<br>
+3. Enter "chrome://extensions" in the chrome address bar. Enable Developer mode.<br>
+<br>
+4. Click the "Load unpacked" to specify the folder.<br>
+<br>
+5. Go to https://www.wikipedia.org in Chrome. Make sure you see the "Change background to red" button.<br>
+<img src="c10_1.png">
+<br>
+<br>
+6. Click the "Change background to red" button to change the background to red.<br>
+<img src="c10_2.png">
+<br>
+<br>
+<span class="font_medium_bold">
+Explanation of program.<br>
+</span>
+<br>
+
+<table border="1">
+  <tr>
+    <th>file name</th><th>description</th>
+  </tr>
+  <tr>
+    <td>manifest.json</td><td>Manifest file.</td>
+  </tr>
+  <tr>
+    <td>matches.js</td><td>A java script that runs when the URLs match.</td>
+  </tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>manifest.json</th>
+  </tr>
+  <tr>
+    <td>
+      {<br>
+        &nbsp;&nbsp;"name":&nbsp;"Chapter&nbsp;10",<br>
+        &nbsp;&nbsp;"version":&nbsp;"1.0",<br>
+        &nbsp;&nbsp;"manifest_version":&nbsp;2,<br>
+        <br>
+        &nbsp;&nbsp;"description":&nbsp;"This&nbsp;is&nbsp;Chapter&nbsp;10",<br>
+        <br>
+        &nbsp;&nbsp;"content_scripts":&nbsp;[<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"matches":&nbsp;["*://*.wikipedia.org/*"],<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"js":&nbsp;["matches.js"]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"matches":&nbsp;["*://nory-soft.web.app/*"],<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"js":&nbsp;["matches.js"]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;]<br>
+        }<br>
+        
+	</td>
+  </tr>
+  <tr>
+</table>
+<br>
+</table>
+
+<table border="1">
+  <tr>
+    <th>matches.js</th>
+  </tr>
+  <tr>
+    <td>
+      let&nbsp;button&nbsp;=&nbsp;document.createElement('input');<br>
+      button.type&nbsp;=&nbsp;'button';<br>
+      button.value&nbsp;=&nbsp;'Change&nbsp;background&nbsp;to&nbsp;red';<br>
+      <br>
+      let&nbsp;child&nbsp;=&nbsp;document.body.firstChild;<br>
+      document.body.insertBefore(button,&nbsp;child);<br>
+      <br>
+      button.addEventListener("click",&nbsp;button_click);<br>
+      <br>
+      function&nbsp;button_click()<br>
+      {<br>
+      &nbsp;&nbsp;document.body.style.backgroundColor&nbsp;=&nbsp;'red';<br>
+      }<br>
+      
+    </td>
+  </tr>
+  <tr>
+</table>
+
+</span>
+</body>
+</html>

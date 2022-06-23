@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<span class="font_medium">
+<span class="font_xxlarge">
+Chapter 6. How to use contextMenus.<br>
+</span>
+<br>
+
+Register the chrome extension in the chrome <span class="font_medium_bold">context menu.</span><br>
+<br>
+1. Prepare the necessary files.<br>
+<br>
+The contents of the files are described on this Chapter.<br>
+Create the icon file with an application such as paint.<br>
+<br>
+You can also download from the following Chrome Extension.<br>
+<a href="https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom?hl=en">
+https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom?hl=en</a><br>
+<br>
+2. Place the files to any folder on your PC.<br>
+Ex. C:\\ChromeExtenson\\Chapter6<br>
+<br>
+3. Enter "chrome://extensions" in the chrome address bar. Enable Developer mode.<br>
+<br>
+4. Click the "Load unpacked"  to specify the folder.<br>
+<br>
+5. Select a keyword on any page and select "Search Twitter for XXXXX" from the context menu.<br>
+<img src="c6_1.png">
+<br>
+<br>
+6. Search results are displayed on Twitter.<br>
+<img src="c6_2.png">
+<br>
+<br>
+<span class="font_medium_bold">
+Explanation of program.<br>
+</span>
+<br>
+
+<table border="1">
+  <tr>
+    <th>file name</th><th>description</th>
+  </tr>
+  <tr>
+    <td>manifest.json</td><td>Manifest file.</td>
+  </tr>
+  <tr>
+    <td>event.js</td><td>Java script file. This runs in the background.</td>
+  </tr>
+  <tr>
+    <td>Chapter_6_19.png</td><td>Extension icon. Size:19x19</td>
+  </tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>manifest.json</th>
+  </tr>
+  <tr>
+    <td>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"name":&nbsp;"Chapter&nbsp;6",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"short_name":&nbsp;"C&nbsp;6",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"version":&nbsp;"1.0",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"manifest_version":&nbsp;2,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"description":&nbsp;"Chapter&nbsp;6",<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"background":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"scripts":&nbsp;["event.js"],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"persistent":&nbsp;true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"permissions":&nbsp;[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"contextMenus"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;],<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"icons":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"19":&nbsp;"Chapter_6_19.png"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+	</td>
+  </tr>
+  <tr>
+</table>
+<br>
+</table>
+
+<table border="1">
+  <tr>
+    <th>event.js</th>
+  </tr>
+  <tr>
+    <td>
+chrome.contextMenus.create({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"title":&nbsp;"Search&nbsp;Twitter&nbsp;for&nbsp;\"%s\"",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"type":&nbsp;"normal",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"contexts":&nbsp;["selection"],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"onclick":&nbsp;function(info)&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chrome.tabs.create({<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url:&nbsp;'http://twitter.com/search?q='+encodeURIComponent(info.selectionText)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+});
+    </td>
+  </tr>
+  <tr>
+</table>
+</span>
+</body>
+</html>

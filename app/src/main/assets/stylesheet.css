@@ -1,0 +1,10 @@
+﻿* {font-family: "Segoe UI",sans-serif; }
+* {font-size: medium; }
+.font_medium {font-size: medium; }
+.font_medium_bold {font-size: medium; font-weight: bold;}
+.font_large {font-size: large; }
+.font_xxlarge {font-size: xx-large; }
+.font_large_bold {font-size: large; font-weight: bold;}
+.font_xxlarge_bold {font-size: xx-large; font-weight: bold;}
+
+.font_bold {font-weight: bold;}

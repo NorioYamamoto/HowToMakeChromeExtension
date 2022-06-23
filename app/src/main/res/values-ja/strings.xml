@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Chrome拡張の作り方</string>
+    <string name="index_html">"file:///android_asset/index_ja.html</string>
+</resources>

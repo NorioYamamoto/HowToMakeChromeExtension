@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+<span class="font_medium">
+<span class="font_xxlarge">
+11章 ファイルの読み込みとファイルへの保存<br>
+</span>
+<br>
+2章で作ったメモ帳にファイルの読み込みとファイルへの保存の機能を追加しましょう。<br>
+ファイルの読み込みは初心者向けの方法を使っているので、貴方はそれをクールでは無いと思うかもしれません。JavaScriptの高度な機能を使えばクールな処理を作ることは可能です。<br>
+ファイルへの保存はChromeの規定の保存先にdownload.txtをダウンロードします。任意の保存先に任意のファイル名で保存したいと思っていた貴方はガッカリするでしょう。任意の保存先を指定することはセキュリティ上、Chromeでは困難だと思います。任意のファイル名についてはこのプログラムを改良すれば可能です。<br>
+<br>
+1. 必要なファイルを準備します。<br>
+<br>
+ファイルの内容はこの章に記載しています。<br>
+アイコンはペイント等のアプリケーションで作成して下さい。<br>
+<br>
+以下のChrome拡張からファイルをダウンロードすることも出来ます。<br>
+<a href="https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom">
+https://chrome.google.com/webstore/detail/how-to-make-chrome-extens/kcekgmndcdbeflkloloihblbepjnpfom</a><br>
+<br>
+2. PCの任意のフォルダにファイルを置きます。<br>
+例 C:&yen;ChromeExtenson&yen;Chapter11<br>
+<br>
+3. Chromeのアドレスバーに"chrome://extensions"を入力し、デベロッパーモードを有効にします。<br>
+<br>
+4. "パッケージされていない拡張機能を読み込む"をクリックし、フォルダを指定します。<br>
+<br>
+5. アドレスバーの右に追加されたアイコンをクリックします。<br>
+<br>
+6. メモ帳に文字を入力し、"Save to File"ボタンをクリックして下さい。download.txt がダウンロードされます。<br>
+<img src="c11_1_ja.png">
+<br>
+<br>
+7. "ファイルを選択"ボタンをクリックし、ファイルを選択して下さい。読み込まれたファイルがメモ帳に表示されます。<br>
+<img src="c11_2_ja.png">
+<br>
+<br>
+<span class="font_medium_bold">
+プログラムの説明<br>
+</span>
+<br>
+
+<table border="1">
+  <tr>
+    <th>ファイル名 </th><th>説明</th>
+  </tr>
+  <tr>
+    <td>manifest.json</td><td>マニュフェスト・ファイル</td>
+  </tr>
+  <tr>
+    <td>popup.html</td><td>アイコンをクリックで表示</td>
+  </tr>
+  <tr>
+    <td>myscript.js</td><td>popup.htmlから呼ばれるjavaスクリプト</td>
+  </tr>
+  <tr>
+    <td>Chapter_11_19.png</td><td>拡張機能アイコン Size:19x19 </td>
+  </tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>manifest.json</th>
+  </tr>
+  <tr>
+    <td>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"name":&nbsp;"Chapter&nbsp;11",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"short_name":&nbsp;"C&nbsp;11",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"version":&nbsp;"1.0",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"manifest_version":&nbsp;2,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"description":&nbsp;"Chapter&nbsp;11",<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"browser_action":&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_icon":&nbsp;"Chapter_11_19.png",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_title":&nbsp;"Chapter&nbsp;11",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"default_popup":&nbsp;"popup.html"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+</td>
+  </tr>
+  <tr>
+</table>
+<br>
+  </table>
+
+  <table border="1">
+  <tr>
+    <th>popup.html</th>
+  </tr>
+  <tr>
+    <td>
+&lt;!DOCTYPE&nbsp;html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta&nbsp;charset="utf-8"&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&nbsp;style="min-width:250px;min-height:200px"&gt;<br>
+&lt;textarea&nbsp;id="id_memo"&nbsp;cols="30"&nbsp;rows="10"&gt;&lt;/textarea&gt;&lt;br&gt;<br>
+&lt;input&nbsp;type="button"&nbsp;id="id_save"&nbsp;value="Save&nbsp;to&nbsp;localStorage"&gt;&lt;br&gt;<br>
+&lt;input&nbsp;type="button"&nbsp;id="id_savefile"&nbsp;value="Save&nbsp;to&nbsp;File"&gt;&lt;br&gt;<br>
+&lt;input&nbsp;type="file"&nbsp;id="id_openfile"&gt;<br>
+&lt;script&nbsp;src="myscript.js"&gt;&lt;/script&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+</td>
+  </tr>
+  <tr>
+</table>
+<br>
+<table border="1">
+  <tr>
+    <th>myscript.js</th>
+  </tr>
+  <tr>
+    <td>
+//&nbsp;Called&nbsp;when&nbsp;popup.html&nbsp;is&nbsp;loaded.<br>
+window.onload&nbsp;=&nbsp;function(){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Load&nbsp;localStorage&nbsp;with&nbsp;Key&nbsp;=&nbsp;'Memo'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;If&nbsp;it&nbsp;does&nbsp;not&nbsp;exist,&nbsp;the&nbsp;value&nbsp;is&nbsp;null.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;memo&nbsp;=&nbsp;localStorage['Memo'];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(memo&nbsp;==&nbsp;null)&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memo&nbsp;=&nbsp;'';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('id_memo').value&nbsp;=&nbsp;memo;<br>
+}<br>
+//&nbsp;Click&nbsp;save&nbsp;button.<br>
+document.getElementById('id_save').onclick&nbsp;=&nbsp;function()&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Load&nbsp;localStorage&nbsp;with&nbsp;Key&nbsp;=&nbsp;'Memo'.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;localStorage['Memo']&nbsp;=&nbsp;document.getElementById('id_memo').value;<br>
+}<br>
+//&nbsp;Click&nbsp;save&nbsp;to&nbsp;file&nbsp;button.<br>
+document.getElementById('id_savefile').onclick&nbsp;=&nbsp;function()&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;memo&nbsp;=&nbsp;document.getElementById('id_memo').value;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;objectURL&nbsp;=&nbsp;window.URL.createObjectURL(new&nbsp;Blob([memo]));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;a&nbsp;=&nbsp;document.createElement('a');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a.download&nbsp;=&nbsp;'download.txt';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a.href&nbsp;=&nbsp;objectURL;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a.click();<br>
+}<br>
+//&nbsp;Click&nbsp;open&nbsp;file&nbsp;button.<br>
+document.getElementById('id_openfile').onchange&nbsp;=&nbsp;function()&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;file&nbsp;=&nbsp;this.files[0];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let&nbsp;reader&nbsp;=&nbsp;new&nbsp;FileReader;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reader.onload&nbsp;=&nbsp;function()&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.getElementById('id_memo').value&nbsp;=&nbsp;reader.result;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reader.readAsText(file);<br>
+}
+    </td>
+  </tr>
+  <tr>
+</table>
+</span>
+</body>
+</html>
